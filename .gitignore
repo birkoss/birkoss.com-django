@@ -1,0 +1,5 @@
+www/local_settings.py
+__pycache__
+
+tmp/restart.txt
+passenger_wsgi.py
