@@ -1,4 +1,4 @@
-www/local_settings.py
+config/local_settings.py
 __pycache__
 
 tmp/restart.txt
