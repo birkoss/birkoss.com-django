@@ -6,17 +6,22 @@ from django.utils.text import slugify
 class Category(models.Model):
 	name = models.CharField(max_length=50)
 	slug = models.CharField(max_length=100, blank=True)
+	position = models.IntegerField(blank=True, editable=False)
 
 	parent = models.ForeignKey('self', blank=True, null=True, related_name="children")
 
 	class Meta:
-		ordering = ('-id',)
+		ordering = ('position',)
+		verbose_name_plural = "Categories"
+		verbose_name = "Categorie"
 
 	def __str__(self):
 		return self.name
+		# return ("-- " if self.parent != None else "") + self.name
 
 	def get_name(self):
 		return ("-- " if self.parent != None else "") + self.name
+	get_name.short_description = 'Name'
 
 	def generate_slug(self, new_slug=None):
 		qs = Category.objects.filter(slug=new_slug).order_by('-id')
@@ -28,6 +33,16 @@ class Category(models.Model):
 
 	@staticmethod
 	def pre_save(sender, instance, *args, **kwargs):
+		order = 1
+		parents = Category.objects.filter(parent=None)
+		for parent in parents:
+			Category.objects.filter(pk=parent.pk).update(position=order)
+			order += 1
+			children = Category.objects.filter(parent=parent.id).order_by('name',)
+			for child in children:
+				Category.objects.filter(pk=child.pk).update(position=order)
+				order += 1
+
 		if not instance.slug:
 			instance.slug = instance.generate_slug(new_slug=slugify(instance.name))
 
