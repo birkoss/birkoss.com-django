@@ -1,4 +1,5 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 
 from .models import Category, Post
@@ -26,7 +27,7 @@ def category(request, *args, **kwargs):
 
 	instance = get_object_or_404(Category, *args, **kwargs)
 
-	queryset_list = Post.objects.filter(categories__id=instance.id)
+	queryset_list = Post.objects.filter( Q(categories__id=instance.id) | Q(categories__parent__id=instance.id) ).distinct()
 
 	paginator = Paginator(queryset_list, 25)
 
