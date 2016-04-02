@@ -48,7 +48,7 @@ def category(request, *args, **kwargs):
 
 def post_detail(request, *args, **kwargs):
 
-	instance = get_object_or_404(Category, *args, **kwargs)
+	instance = get_object_or_404(Post, *args, **kwargs)
 
 	queryset_list = Post.objects.filter(categories__id=instance.id)
 

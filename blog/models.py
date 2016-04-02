@@ -1,6 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import m2m_changed, pre_save
 from django.utils.text import slugify
 
 
@@ -88,7 +88,6 @@ class Post(models.Model):
 
 	@staticmethod
 	def pre_save(sender, instance, *args, **kwargs):
-		# @TODO Select parents categories on save
 		if not instance.slug:
 			instance.slug = instance.generate_slug(new_slug=slugify(instance.title))
 
