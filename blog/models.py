@@ -8,6 +8,7 @@ class Category(models.Model):
 	name = models.CharField(max_length=50)
 	slug = models.CharField(max_length=100, blank=True)
 	position = models.IntegerField(blank=True, editable=False)
+	icon = models.CharField(max_length=50, blank=True)
 
 	parent = models.ForeignKey('self', blank=True, null=True, related_name="children")
 
@@ -80,6 +81,10 @@ class Post(models.Model):
 			new_slug = "%s-%s" % (new_slug, qs.first().id)
 			return self.generate_slug(new_slug=new_slug)
 		return new_slug
+
+	def get_absolute_url(self):
+		return reverse('blog:post', kwargs={'slug': self.slug})
+
 
 	@staticmethod
 	def pre_save(sender, instance, *args, **kwargs):

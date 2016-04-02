@@ -1,7 +1,41 @@
 {% extends "base.html" %}
 
-sway
-
 {% block content %}
-<h1>{{ title }}</h1>
+<div class="mdl-grid container-title">
+	<div class="mdl-cell mdl-cell--12-col">
+		<h1>
+			<span>
+				{% if category.parent %}<i class="fa fa-{{ category.parent.icon }}"></i> <a href="{{ category.parent.get_absolute_url }}">{{ category.parent.name }}</a> / {% endif %}
+				{% if category.icon %}<i class="fa fa-{{ category.icon }}"></i> {% endif %}
+				{{ category.name }}
+			</span>
+		</h1>
+	</div>
+</div>
+<div class="mdl-grid container-content">
+	{% if objects %}
+		{% for obj in objects %}
+			<div class="mdl-cell mdl-cell--8-col mdl-cell--2-offset">
+				<div class="post-card mdl-card mdl-shadow--2dp">
+					<div class="mdl-card__title">
+						<h2 class="mdl-card__title-text">{{ obj.title }}</h2>
+					</div>
+					<div class="mdl-card__supporting-text">{{ obj.content }}</div>
+					<div class="mdl-card__actions mdl-card--border">
+						<a href="{{ obj.get_absolute_url }}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Plus d'info</a>
+					</div>
+					<div class="mdl-card__menu">
+						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+						<i class="material-icons">share</i>
+						</button>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	{% else %}
+	<div class="mdl-cell mdl-cell--12-col">
+		<p>Aucun article dans cette catégorie</p>
+	</div>
+	{% endif %}
+</div>
 {% endblock %}

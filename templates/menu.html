@@ -1,3 +1,10 @@
 {% for link in links %}
-	<a class="mdl-navigation__link" href="{{ link.get_absolute_url }}">{{ link.name }}</a>
+	<a class="mdl-navigation__link{% if link.parent %} sub-category{% endif %}" href="{{ link.get_absolute_url }}">
+		{% if link.icon %}
+			<i class="fa fa-lg fa-{{ link.icon }}"></i>
+		{% else %}
+			<i class="fa fa-angle-right"></i>
+		{% endif %}
+		{{ link.name }}
+	</a>
 {% endfor %}
