@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
@@ -30,6 +31,11 @@ class Category(models.Model):
 			new_slug = "%s-%s" % (new_slug, qs.first().id)
 			return self.generate_slug(new_slug=new_slug)
 		return new_slug
+
+	def get_absolute_url(self):
+		if self.parent is None:
+			return reverse('blog:category', kwargs={'slug': self.slug})
+		return reverse('blog:subcategory', kwargs={'slug': self.slug, 'parent__slug': self.parent.slug})
 
 	@staticmethod
 	def pre_save(sender, instance, *args, **kwargs):

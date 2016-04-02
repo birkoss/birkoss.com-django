@@ -1,7 +1,7 @@
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import get_object_or_404, render
 
-from .models import Post
+from .models import Category, Post
 
 def home(request):
 	queryset_list = Post.objects.all()
@@ -22,7 +22,12 @@ def home(request):
 
 	return render(request, 'blog/posts.html', context)
 
-def category(request, slug=None):
+def category(request, *args, **kwargs):
+
+	print(kwargs)
+
+	instance = get_object_or_404(Category, *args, **kwargs)
+
 	queryset_list = Post.objects.all()
 
 	paginator = Paginator(queryset_list, 25)
@@ -36,6 +41,7 @@ def category(request, slug=None):
 		queryset = paginator.page(paginator.num_pages)
 
 	context = {
+		'title': instance.name,
 		'objects': queryset,
 	}
 
