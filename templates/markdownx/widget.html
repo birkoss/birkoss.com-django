@@ -1,0 +1,32 @@
+<script type="text/javascript">
+	django.jQuery( document ).ready(function() {
+		django.jQuery('#editor_control').click(function() {
+			if( django.jQuery('#editor_markdown').css('display') == 'none' ) {
+				django.jQuery('#editor_markdown').css('display', 'block');
+				django.jQuery('#editor_preview').css('display', 'none');
+				django.jQuery('#editor_control').val('Preview');
+			} else {
+				django.jQuery('#editor_markdown').css('display', 'none');
+				django.jQuery('#editor_preview').css('display', 'block');
+				django.jQuery('#editor_control').val('Editor');
+			}
+		});
+	});
+</script>
+<style>
+#editor_markdown textarea {
+	width: 99% !important;
+}
+#editor_preview .markdownx-preview {
+	width: 99% !important;
+}
+</style>
+<div class="markdownx row" style="width: calc(100% - 170px);">
+		<input id="editor_control" type="button" value="Preview" />
+    <div id="editor_markdown">
+        {{ markdownx_editor }}
+    </div>
+    <div id="editor_preview" style="display: none;">
+        <div class="markdownx-preview"></div>
+    </div>
+</div>
