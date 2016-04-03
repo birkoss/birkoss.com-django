@@ -40,16 +40,25 @@
 							<i class="material-icons">search</i>
 						</label>
 						<div class="mdl-textfield__expandable-holder">
-							<input class="mdl-textfield__input" type="text" name="sample"	id="fixed-header-drawer-exp">
+							<form method="get" action="{% url 'blog:search' %}">
+								<input class="mdl-textfield__input" type="text" name="q" value="{{ request.GET.q }}" id="fixed-header-drawer-exp">
+							</form>
 						</div>
 					</div>
 				</div>
 			</header>
 			<div class="mdl-layout__drawer">
-				<span class="mdl-layout-title">birkoss.com</span>
+				<span class="mdl-layout-title"><a href="{% url 'blog:home' %}">birkoss.com</a></span>
 				<nav class="mdl-navigation">
 					{% show_menu_categories %}
 				</nav>
+
+				<nav class="socials">
+					<a href="https://twitter.com/birkoss"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-stack-1x fa-inverse fa-twitter"></i></span></a>
+					<a href="https://birkoss.com/birkoss.asc"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-stack-1x fa-inverse fa-key"></i></span></a>
+					<a href="https://github.com/birkoss"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-stack-1x fa-inverse fa-github"></i></span></a>
+				</nav>
+
 			</div>
 			<main class="mdl-layout__content">
 				<div class="page-content">

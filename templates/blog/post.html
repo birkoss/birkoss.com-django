@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load md %}
+
+{% block content %}
+<div class="mdl-grid container-title">
+	<div class="mdl-cell mdl-cell--12-col">
+		<h1>
+			<span>
+				<i class="fa fa-file"></i>
+				{{ post.title }}
+			</span>
+		</h1>
+	</div>
+</div>
+<div class="mdl-grid container-content">
+
+	<div class="mdl-cell mdl-cell--8-col mdl-cell--2-offset">
+		<div class="post-card mdl-card mdl-shadow--2dp">
+			<div class="mdl-card__supporting-text">{{ post.content | md | safe }}</div>
+			<div class="mdl-card__actions mdl-card--border">
+				{% for category in post.categories.all %}
+					<a href="{{ category.get_absolute_url }}" class="mdl-button mdl-js-button mdl-js-ripple-effect">{{ category.name }}</a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

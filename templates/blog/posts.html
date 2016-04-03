@@ -1,17 +1,19 @@
 {% extends "base.html" %}
+{% load md %}
 
 {% block content %}
-<div class="mdl-grid container-title">
-	<div class="mdl-cell mdl-cell--12-col">
-		<h1>
-			<span>
-				{% if category.parent %}<i class="fa fa-{{ category.parent.icon }}"></i> <a href="{{ category.parent.get_absolute_url }}">{{ category.parent.name }}</a> / {% endif %}
-				{% if category.icon %}<i class="fa fa-{{ category.icon }}"></i> {% endif %}
-				{{ category.name }}
-			</span>
-		</h1>
-	</div>
-</div>
+	{% if header_title %}
+		<div class="mdl-grid container-title">
+			<div class="mdl-cell mdl-cell--12-col">
+				<h1>
+					<span>
+						{% if header_icon %}<i class="fa fa-{{ header_icon }}"></i> {% endif %}
+						{{ header_title }}
+					</span>
+				</h1>
+			</div>
+		</div>
+	{% endif %}
 <div class="mdl-grid container-content">
 	{% if objects %}
 		{% for obj in objects %}
@@ -20,21 +22,16 @@
 					<div class="mdl-card__title">
 						<h2 class="mdl-card__title-text">{{ obj.title }}</h2>
 					</div>
-					<div class="mdl-card__supporting-text">{{ obj.content }}</div>
+					<div class="mdl-card__supporting-text">{{ obj.content | md | safe | truncatechars_html:255 }}</div>
 					<div class="mdl-card__actions mdl-card--border">
-						<a href="{{ obj.get_absolute_url }}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Plus d'info</a>
-					</div>
-					<div class="mdl-card__menu">
-						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-						<i class="material-icons">share</i>
-						</button>
+						<a href="{{ obj.get_absolute_url }}" class="mdl-button mdl-js-button mdl-js-ripple-effect">Plus d'info</a>
 					</div>
 				</div>
 			</div>
 		{% endfor %}
 	{% else %}
 	<div class="mdl-cell mdl-cell--12-col">
-		<p>Aucun article dans cette catégorie</p>
+		<p>{{ empty_content }}</p>
 	</div>
 	{% endif %}
 </div>
