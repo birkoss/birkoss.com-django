@@ -63,7 +63,7 @@ class Post(models.Model):
 
 	date_created = models.DateTimeField(auto_now_add=True, auto_now=False)
 	date_modified = models.DateTimeField(auto_now_add=False, auto_now=True)
-	date_published = models.DateField(auto_now_add=True, auto_now=False)
+	date_published = models.DateField(auto_now_add=False, auto_now=False)
 
 	categories = models.ManyToManyField(Category)
 	# tags = models.ManyToMany(tag)
